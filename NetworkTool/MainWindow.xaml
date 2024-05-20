@@ -1,0 +1,38 @@
+﻿<Window x:Class="NetworkTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NetworkTool"
+        mc:Ignorable="d"
+        Title="NetworkTool-WPF" Height="450" Width="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <StackPanel Grid.Column="0" Background="LightGray">
+            <Button Name="NetworkScanButton" Content="Network Scan" Margin="10" Height="40" Click="NetworkScanButton_Click"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Name="MainContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+
+            <DataGrid Name="NetworkDataGrid" AutoGenerateColumns="False" Margin="10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="*"/>
+                    <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*"/>
+                    <DataGridTextColumn Header="MAC Address" Binding="{Binding MacAddress}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBox Name="LogTextBox" Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextWrapping="Wrap" />
+        </Grid>
+    </Grid>
+</Window>
