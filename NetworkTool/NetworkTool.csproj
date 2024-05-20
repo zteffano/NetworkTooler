@@ -8,8 +8,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nmap.NET" Version="1.0.4" />
-  </ItemGroup>
-
 </Project>
