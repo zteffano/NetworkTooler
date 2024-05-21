@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using NetworkTool.Services;
 
 
 
@@ -13,19 +14,18 @@ namespace NetworkTool
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly NmapService _nmapService;
+
         public MainWindow()
         {
             InitializeComponent();
-
-
+            _nmapService = new NmapService();
         }
-
-        /* WPF event logic*/
 
         private async void NetworkScanButton_Click(object sender, RoutedEventArgs e)
         {
             LogMessage("Starting network scan...");
-            var devices = await ScanNetworkAsync("192.168.1.0/24"); // Scan entire subnet
+            var devices = await _nmapService.ScanNetworkAsync("192.168.1.0/24");
             NetworkDataGrid.ItemsSource = devices;
             LogMessage("Network scan completed.");
         }
@@ -35,7 +35,7 @@ namespace NetworkTool
             if (NetworkDataGrid.SelectedItem is NetworkDevice selectedDevice)
             {
                 LogMessage($"Rescanning device: {selectedDevice.IpAddress}...");
-                var devices = await ScanNetworkAsync(selectedDevice.IpAddress);
+                var devices = await _nmapService.ScanNetworkAsync(selectedDevice.IpAddress);
                 var device = devices.FirstOrDefault();
                 if (device != null)
                 {
@@ -56,87 +56,9 @@ namespace NetworkTool
             if (NetworkDataGrid.SelectedItem is NetworkDevice selectedDevice)
             {
                 LogMessage($"Port scan initiated for device: {selectedDevice.IpAddress}");
-                var result = await RunNmapScan(selectedDevice.IpAddress);
+                var result = await _nmapService.RunNmapScanAsync(selectedDevice.IpAddress);
                 LogMessage(result);
             }
-        }
-
-        /* Helper methods */
-
-        private async Task<List<NetworkDevice>> ScanNetworkAsync(string subnet)
-        {
-            return await Task.Run(() =>
-            {
-                var devices = new List<NetworkDevice>();
-                try
-                {
-                    var process = new Process();
-                    process.StartInfo.FileName = "nmap";
-                    process.StartInfo.Arguments = $"-sn {subnet}";
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.CreateNoWindow = true;
-                    process.Start();
-
-                    string output = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-
-                    var regex = new Regex(@"Nmap scan report for (.*)\nHost is up.*\nMAC Address: ([\w:]+) \((.*)\)");
-                    var matches = regex.Matches(output);
-
-                    foreach (Match match in matches)
-                    {
-                        var ip = match.Groups[1].Value;
-                        var mac = match.Groups[2].Value;
-                        var hostName = match.Groups[3].Value;
-
-                        devices.Add(new NetworkDevice
-                        {
-                            IpAddress = ip,
-                            HostName = hostName,
-                            MacAddress = mac
-                        });
-
-                        LogMessage($"Device found: IP={ip}, HostName={hostName}, MAC={mac}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogMessage($"Error running nmap: {ex.Message}");
-                }
-
-                return devices;
-            });
-        }
-
-        private async Task<string> RunNmapScan(string ipAddress)
-        {
-            return await Task.Run(() =>
-            {
-                try
-                {
-                    ipAddress = ipAddress.Trim();
-                    LogMessage($"Running nmap scan for {ipAddress}");
-                    var process = new Process();
-                    process.StartInfo.FileName = "nmap";
-                    process.StartInfo.Arguments = $"-p 1-1024 {ipAddress}";
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.CreateNoWindow = true;
-                    LogMessage($"Running nmap {process.StartInfo.Arguments}");
-                    process.Start();
-
-                    string output = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-                    LogMessage($"nmap standard output: {output}");
-                    return output;
-                }
-                catch (Exception ex)
-                {
-                    return $"Error running nmap: {ex.Message}";
-                }
-            });
-        
         }
 
         private void LogMessage(string message)

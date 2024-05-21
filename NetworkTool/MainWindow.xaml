@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NetworkTool"
         mc:Ignorable="d"
-        Title="NetworkTool-WPF" Height="450" Width="900">
+        Title="NetworkTool-WPF" Height="650" Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -21,9 +21,9 @@
         <Grid Grid.Column="1" Name="MainContent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <!-- Ændret fra "100" til "*" for at gøre rækken resizable -->
+                <RowDefinition Height="150" />
             </Grid.RowDefinitions>
+
             <DataGrid Name="NetworkDataGrid" AutoGenerateColumns="False" Margin="10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="*"/>
@@ -37,9 +37,9 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
-            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
 
-            <TextBox Name="LogTextBox" Grid.Row="2" Margin="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextWrapping="Wrap" MinHeight="100" />
+
+            <TextBox Name="LogTextBox" Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
         </Grid>
     </Grid>
 </Window>
