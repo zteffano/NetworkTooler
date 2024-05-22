@@ -14,7 +14,8 @@
 
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="LightGray">
-            <Button Name="NetworkScanButton" Content="Network Scan" Margin="10" Height="40" Click="NetworkScanButton_Click"/>
+            <Button Name="NetworkScanButton" Content="Quick Network Ping" Margin="10" Height="40" Click="NetworkScanButton_Click"/>
+            <Button Name="NetworkScanButton_Grab" Content="Grab Network Info" Margin="10" Height="40" Click="NetworkScanButton_Grab_Click"/>
         </StackPanel>
 
         <!-- Main Content -->
@@ -29,11 +30,15 @@
                     <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="*"/>
                     <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*"/>
                     <DataGridTextColumn Header="MAC Address" Binding="{Binding MacAddress}" Width="*"/>
+                    <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}" Width="*" />
+                    <DataGridTextColumn Header="Last Seen:" Binding="{Binding LastSeen}" Width="*" />
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
+                        <!--
                         <MenuItem Header="Rescan Device" Click="RescanDevice_Click"/>
-                        <MenuItem Header="Port Scan (nmap)" Click="PortScan_Click"/>
+                        <MenuItem Header="Port Scan (nmap)" Click="PortScan_Click"/> 
+                        -->
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

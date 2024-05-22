@@ -20,45 +20,49 @@ namespace NetworkTool
         {
             InitializeComponent();
             _nmapService = new NmapService();
+            _nmapService.OnLogMessage += LogMessage;
+
+        }
+
+        private void UpdateDeviceList()
+        {
+            NetworkDataGrid.Items.Clear();
+            foreach (var device in _nmapService.Devices)
+            {
+                NetworkDataGrid.Items.Add(device);
+            }
         }
 
         private async void NetworkScanButton_Click(object sender, RoutedEventArgs e)
         {
-            LogMessage("Starting network scan...");
-            var devices = await _nmapService.ScanNetworkAsync("192.168.1.0/24");
-            NetworkDataGrid.ItemsSource = devices;
-            LogMessage("Network scan completed.");
+            LogMessage("Scanning network...");
+            await _nmapService.UpdateNetworkDevicesAsync("192.168.1.0/24");
+            LogMessage("Network scan complete.");
+            //Log the devices
+            LogMessage("Devices found:");
+            foreach (var device in _nmapService.Devices)
+            {
+                LogMessage($"IP: {device.IpAddress}, Hostname: {device.HostName}, MAC: {device.MacAddress}, Last Seen: {device.LastSeen}");
+            }
+            UpdateDeviceList();
+           
+    
+        }
+
+        private async void NetworkScanButton_Grab_Click(object sender, RoutedEventArgs e)
+        {
+            await _nmapService.ExtendedNetworkScan();
+            UpdateDeviceList();
         }
 
         private async void RescanDevice_Click(object sender, RoutedEventArgs e)
         {
-            if (NetworkDataGrid.SelectedItem is NetworkDevice selectedDevice)
-            {
-                LogMessage($"Rescanning device: {selectedDevice.IpAddress}...");
-                var devices = await _nmapService.ScanNetworkAsync(selectedDevice.IpAddress);
-                var device = devices.FirstOrDefault();
-                if (device != null)
-                {
-                    selectedDevice.HostName = device.HostName;
-                    selectedDevice.MacAddress = device.MacAddress;
-                    NetworkDataGrid.Items.Refresh();
-                    LogMessage($"Device rescan completed: IP={selectedDevice.IpAddress}, HostName={device.HostName}, MAC={device.MacAddress}");
-                }
-                else
-                {
-                    LogMessage($"Device rescan failed: {selectedDevice.IpAddress} is not responding.");
-                }
-            }
+        // Not implemented
         }
 
         private async void PortScan_Click(object sender, RoutedEventArgs e)
         {
-            if (NetworkDataGrid.SelectedItem is NetworkDevice selectedDevice)
-            {
-                LogMessage($"Port scan initiated for device: {selectedDevice.IpAddress}");
-                var result = await _nmapService.RunNmapScanAsync(selectedDevice.IpAddress);
-                LogMessage(result);
-            }
+            // Not implemented
         }
 
         private void LogMessage(string message)
