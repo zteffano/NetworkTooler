@@ -71,7 +71,7 @@ namespace NetworkTool.Services
                     {
                         StartInfo = new ProcessStartInfo
                         {
-                            FileName = @"C:\Program Files (x86)\Nmap\nmap.exe",
+                            FileName = "nmap",
                             Arguments = $"-p 1-1024 {ipAddress}",
                             RedirectStandardOutput = true,
                             RedirectStandardError = true,
