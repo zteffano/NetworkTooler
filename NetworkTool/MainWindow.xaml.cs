@@ -5,8 +5,13 @@ using System.Text.RegularExpressions;
 using NetworkTool.Services;
 using System.Net;
 using System.Windows.Controls;
+using NetworkTool.Views;
 
-
+/*
+ * TODO: Find a better way to implement Logging
+ * TODO: Reseach and design a small feature roadmap
+ * 
+ */
 
 
 namespace NetworkTool
@@ -41,7 +46,9 @@ namespace NetworkTool
 
         private async void NetworkScanButton_Click(object sender, RoutedEventArgs e)
         {
+
             LoadNetworkScanView();
+            //TODO: Move to NetworkScanView
             LogMessage("Scanning network...");
             await _nmapService.UpdateNetworkDevicesAsync("192.168.1.0/24");
             //LogMessage("Network scan complete.");
@@ -58,11 +65,14 @@ namespace NetworkTool
 
         private async void NetworkScanButton_Grab_Click(object sender, RoutedEventArgs e)
         {
+            
             LoadNetworkScanView();
+            //TODO: Move to NetworkScanView and look at Load times(seems high)
             await _nmapService.ExtendedNetworkScan();
             UpdateDeviceList();
         }
 
+        //TODO: should move to NetworkScanView 
         private async void RescanDevice_Click(object sender, RoutedEventArgs e)
         {
         // Not implemented
@@ -84,7 +94,7 @@ namespace NetworkTool
 
         private void LoadPortScannerView()
         {
-            MainContentControl.Content = new Views.PortScanView();
+            MainContentControl.Content = new PortScanView(_nmapService);
         }
 
 

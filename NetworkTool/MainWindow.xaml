@@ -14,8 +14,8 @@
 
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="LightGray">
-            <Label Content="MY IP:" HorizontalAlignment="center"/>
-            <TextBox Name="MyIp"  Margin="10" IsReadOnly="True" />
+            <Label Content="MY IP:" HorizontalAlignment="center" FontWeight="Bold"/>
+            <TextBlock Name="MyIp"  Margin="10" HorizontalAlignment="center"/>
             <Button Name="NetworkScanButton" Content="Quick Network Ping" Margin="10" Height="40" Click="NetworkScanButton_Click"/>
             <Button Name="NetworkScanButton_Grab" Content="Extended Network Scan" Margin="10" Height="40" Click="NetworkScanButton_Grab_Click"/>
             <Button Name="PortScanButton" Content="Port Scanner" Margin="10" Height="40" Click="PortScan_Click"/>

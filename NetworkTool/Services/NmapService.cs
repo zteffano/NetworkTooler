@@ -144,6 +144,12 @@ namespace NetworkTool.Services
             return output;
         }
 
+        // Parse nmap output and return a NetworkDevice object
+        public NetworkDevice ParseNmapOutput(string nmapOutput)
+        {
+            return _nmapParser.ParseNmapOutput(nmapOutput);
+        }
+
 
 
 

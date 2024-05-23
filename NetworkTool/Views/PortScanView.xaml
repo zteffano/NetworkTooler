@@ -6,12 +6,25 @@
     
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBox Name="ScanIP" Margin="10" Width="200"/>
+        <StackPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox Name="ScanIP" Margin="10" Width="200" VerticalAlignment="center"/>
+            <TextBox Name="StartPort" Margin="10" Width="100" Text="1" VerticalAlignment="center"/>
+            <TextBox Name="EndPort" Margin="10" Width="100" Text="1024" VerticalAlignment="center"/>
             <Button Name="ScanButton" Content="Scan" Margin="10"  Width="100" FontWeight="Bold" Background="White" Click="ScanButton_Click"/>
+            </StackPanel>
+            <TextBlock Text="Target Info" HorizontalAlignment="center" FontSize="16" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="center">
+
+
+                <TextBlock Name="ScannedIp" Margin="10" />
+                <TextBlock Name="MacAddress" Margin="10" />
+                <TextBlock Name="Manufacturer" Margin="10" />
+            </StackPanel>
+
         </StackPanel>
 
         <DataGrid Name="PortDataGrid" AutoGenerateColumns="False" Margin="10" Grid.Row="1">
