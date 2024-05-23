@@ -3,6 +3,8 @@ using System.Windows;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using NetworkTool.Services;
+using System.Net;
+using System.Windows.Controls;
 
 
 
@@ -15,30 +17,35 @@ namespace NetworkTool
     public partial class MainWindow : Window
     {
         private readonly NmapService _nmapService;
+        private IPAddress _myip;
+        // load the network scan view
+        private Views.NetworkScanView _networkScanView = new Views.NetworkScanView();
 
         public MainWindow()
         {
             InitializeComponent();
             _nmapService = new NmapService();
             _nmapService.OnLogMessage += LogMessage;
+            SetLocalIP();
 
         }
 
         private void UpdateDeviceList()
         {
-            NetworkDataGrid.Items.Clear();
+            _networkScanView.NetworkDataGrid.Items.Clear();
             foreach (var device in _nmapService.Devices)
             {
-                NetworkDataGrid.Items.Add(device);
+                _networkScanView.NetworkDataGrid.Items.Add(device);
             }
         }
 
         private async void NetworkScanButton_Click(object sender, RoutedEventArgs e)
         {
+            LoadNetworkScanView();
             LogMessage("Scanning network...");
             await _nmapService.UpdateNetworkDevicesAsync("192.168.1.0/24");
-            LogMessage("Network scan complete.");
-            //Log the devices
+            //LogMessage("Network scan complete.");
+            ////Log the devices
             LogMessage("Devices found:");
             foreach (var device in _nmapService.Devices)
             {
@@ -51,6 +58,7 @@ namespace NetworkTool
 
         private async void NetworkScanButton_Grab_Click(object sender, RoutedEventArgs e)
         {
+            LoadNetworkScanView();
             await _nmapService.ExtendedNetworkScan();
             UpdateDeviceList();
         }
@@ -62,8 +70,26 @@ namespace NetworkTool
 
         private async void PortScan_Click(object sender, RoutedEventArgs e)
         {
-            // Not implemented
+            LoadPortScannerView();
+            LogMessage("Ready to Scan ports");
         }
+
+
+        /* Views */
+
+        private void LoadNetworkScanView()
+        {
+            MainContentControl.Content = _networkScanView;
+        }
+
+        private void LoadPortScannerView()
+        {
+            MainContentControl.Content = new Views.PortScanView();
+        }
+
+
+
+        /* helpers */
 
         private void LogMessage(string message)
         {
@@ -72,6 +98,32 @@ namespace NetworkTool
                 LogTextBox.AppendText($"[{DateTime.Now}] : {message}\n");
                 LogTextBox.ScrollToEnd();
             });
+        }
+
+        private void SetLocalIP()
+        {
+            string hostName = Dns.GetHostName();
+            IPAddress[] adresses = Dns.GetHostAddresses(hostName);
+
+            foreach (IPAddress ip in adresses)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    _myip = ip;
+                    break;
+                }
+            }
+
+            if (_myip == null)
+            {
+                LogMessage("Could not find local IP address.");
+            }
+            else
+            {
+                LogMessage($"Local IP address: {_myip}");
+            }
+
+            MyIp.Text = _myip.ToString();
         }
     }
 }

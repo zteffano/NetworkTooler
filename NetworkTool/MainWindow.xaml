@@ -14,8 +14,12 @@
 
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="LightGray">
+            <Label Content="MY IP:" HorizontalAlignment="center"/>
+            <TextBox Name="MyIp"  Margin="10" IsReadOnly="True" />
             <Button Name="NetworkScanButton" Content="Quick Network Ping" Margin="10" Height="40" Click="NetworkScanButton_Click"/>
-            <Button Name="NetworkScanButton_Grab" Content="Grab Network Info" Margin="10" Height="40" Click="NetworkScanButton_Grab_Click"/>
+            <Button Name="NetworkScanButton_Grab" Content="Extended Network Scan" Margin="10" Height="40" Click="NetworkScanButton_Grab_Click"/>
+            <Button Name="PortScanButton" Content="Port Scanner" Margin="10" Height="40" Click="PortScan_Click"/>
+
         </StackPanel>
 
         <!-- Main Content -->
@@ -25,23 +29,10 @@
                 <RowDefinition Height="150" />
             </Grid.RowDefinitions>
 
-            <DataGrid Name="NetworkDataGrid" AutoGenerateColumns="False" Margin="10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="*"/>
-                    <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*"/>
-                    <DataGridTextColumn Header="MAC Address" Binding="{Binding MacAddress}" Width="*"/>
-                    <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}" Width="*" />
-                    <DataGridTextColumn Header="Last Seen:" Binding="{Binding LastSeen}" Width="*" />
-                </DataGrid.Columns>
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <!--
-                        <MenuItem Header="Rescan Device" Click="RescanDevice_Click"/>
-                        <MenuItem Header="Port Scan (nmap)" Click="PortScan_Click"/> 
-                        -->
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </DataGrid>
+
+            <ContentControl Grid.Column="1" Name="MainContentControl">
+                <Label Content="Welcome to NetworkTool-WPF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+            </ContentControl>
 
 
             <TextBox Name="LogTextBox" Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" />

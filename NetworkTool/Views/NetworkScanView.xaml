@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="NetworkTool.Views.NetworkScanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <!-- Your existing network scan UI elements go here -->
+        <DataGrid Name="NetworkDataGrid" AutoGenerateColumns="False" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="*"/>
+                <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*"/>
+                <DataGridTextColumn Header="MAC Address" Binding="{Binding MacAddress}" Width="*"/>
+                <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}" Width="*"/>
+                <DataGridTextColumn Header="Last Seen:" Binding="{Binding LastSeen}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

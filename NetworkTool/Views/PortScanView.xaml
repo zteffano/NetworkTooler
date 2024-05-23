@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="NetworkTool.Views.PortScanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+    
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox Name="ScanIP" Margin="10" Width="200"/>
+            <Button Name="ScanButton" Content="Scan" Margin="10"  Width="100" FontWeight="Bold" Background="White" Click="ScanButton_Click"/>
+        </StackPanel>
+
+        <DataGrid Name="PortDataGrid" AutoGenerateColumns="False" Margin="10" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Port #:" Binding="{Binding PortNumber}" Width="*"/>
+                <DataGridTextColumn Header="Protocol" Binding="{Binding Protocol}" Width="*"/>
+                <DataGridTextColumn Header="IsOpen" Binding="{Binding IsOpen}" Width="*"/>
+                <DataGridTextColumn Header="Service" Binding="{Binding Service}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
+
