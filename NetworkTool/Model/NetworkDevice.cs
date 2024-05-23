@@ -16,14 +16,5 @@ namespace NetworkTool.Model
         public List<Port> Ports { get; set; } = new List<Port>();
         public DateTime LastSeen { get; set; }
     }
-
-    public class Port
-{
-        public int PortNumber { get; set; }
-        public string Protocol { get; set; }
-        public bool IsOpen { get; set; }
-        public string Service { get; set; }
-    }
-
     
 }

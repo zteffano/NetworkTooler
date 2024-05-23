@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NetworkTool.Model
 {
+
+    /* TODO: Should move to Services instead or integrate in NmapService class 
+     */
     public class NmapParser
     {
         public NetworkDevice ParseNmapOutput(string nmapOutput)
